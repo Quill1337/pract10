@@ -9,26 +9,55 @@
         Background="Black"
         Title="MainWindow" Height="222.343" Width="388.281">
     <Grid>
-        <ListBox x:Name="values" HorizontalAlignment="Left" Height="145" Margin="10,30,0,0" VerticalAlignment="Top" Width="140" Foreground="white" Background="Transparent"/>
+        <LinearGradientBrush>
+            <GradientStop x:Name="GradientStop1" Offset="0.5" Color="#333333" />
+            <GradientStop x:Name="GradientStop2" Offset="1" Color="#1F1287" />
+        </LinearGradientBrush>
+    </Window.Background>
+    <Window.Triggers>
+        <EventTrigger RoutedEvent="Loaded">
+            <BeginStoryboard>
+                <Storyboard>
+                    <ColorAnimation
+                        AutoReverse="True"
+                        RepeatBehavior="Forever"
+                        Storyboard.TargetName="GradientStop1"
+                        Storyboard.TargetProperty="Color"
+                        From="#333333"
+                        To="#1F1287"
+                        Duration="0:0:2" />
+                    <ColorAnimation
+                        AutoReverse="True"
+                        RepeatBehavior="Forever"
+                        Storyboard.TargetName="GradientStop2"
+                        Storyboard.TargetProperty="Color"
+                        From="#1F1287"
+                        To="#333333"
+                        Duration="0:0:2" />
+                </Storyboard>
+            </BeginStoryboard>
+        </EventTrigger>
+    </Window.Triggers>
+    <Grid>
+        <Menu VerticalAlignment="Top" Background="Transparent">
+            <MenuItem Header="Файл" Foreground="White">
+                <MenuItem Header="Очистка" x:Name="ClearAll" Click="ClearAll_Click" Foreground="Black"/>
+                <MenuItem Header="Выход" x:Name="CloseProg" Click="CloseProg_Click" Foreground="Black"/>
+            </MenuItem>
+            <MenuItem Header="Справка" Foreground="White">
+                <MenuItem Header="Задание" x:Name="TaskShow" Click="TaskShow_Click" Foreground="Black"/>
+            </MenuItem>
+        </Menu>
+        <DataGrid Margin="0,18,0,211" x:Name="ArrNums" IsReadOnly="True" Background="Transparent" SelectionChanged="ArrNums_SelectionChanged">
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="Числа" Binding="{Binding Path=Num}"/>
+            </DataGrid.Columns>
+        </DataGrid>
+        <Button x:Name="ResBut" Content="Результат" HorizontalAlignment="Left" Margin="330,379,0,0" VerticalAlignment="Top" Width="120" Click="ResBut_Click" Background="{x:Null}" Foreground="White"/>
+        <TextBox TextChanged="CapacityLenghtTextBox_TextChanged" HorizontalAlignment="Left" Margin="330,284,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120" x:Name="CapacityLenghtTextBox" Background="{x:Null}" Foreground="White"/>
+        <Label Content="Размер коллекции" HorizontalAlignment="Left" Margin="334,258,0,0" VerticalAlignment="Top" Foreground="White"/>
+        <TextBox IsReadOnly="True" HorizontalAlignment="Left" Margin="330,338,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120" x:Name="AvgNums" Background="{x:Null}" Foreground="White"/>
+        <Label Content="Среднее арифметическое" HorizontalAlignment="Left" Margin="318,314,0,0" VerticalAlignment="Top" Foreground="White"/>
 
-        <GroupBox Header="Взаимодействие с программой" HorizontalAlignment="Left" Height="144" Margin="161,30,0,0" VerticalAlignment="Top" Width="200" RenderTransformOrigin="0.5,0.5" Foreground="white">
-            <Grid HorizontalAlignment="Left" Height="121" Margin="10,0,-2,0" VerticalAlignment="Top" Width="180">
-                <TextBox x:Name="result" IsReadOnly="True" HorizontalAlignment="Left" Height="23" Margin="80,18,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="90" Foreground="White" Background="Transparent"/>
-                <Label Content="Результат:" HorizontalAlignment="Left" Margin="0,18,0,0" VerticalAlignment="Top" Foreground="White"/>
-                <Button Content="Заполнить" HorizontalAlignment="Left" Margin="80,53,0,0" VerticalAlignment="Top" Width="90" Height="23" Click="FillList_Click" RenderTransformOrigin="0.381,6.506" Foreground="white" Background="Transparent"/>
-                <Button Content="Найти" HorizontalAlignment="Left" Margin="80,88,0,0" VerticalAlignment="Top" Width="90" Height="23" Click="FindAverage_Click" RenderTransformOrigin="1.885,-2.067" Foreground="white" Background="Transparent" />
-            </Grid>
-        </GroupBox>
-
-        <Grid>
-            <Menu VerticalAlignment="Top">
-                <MenuItem Header="Файл">
-                    <MenuItem Header="Очистить список" Click="Clear_Click"/>
-                    <Separator/>
-                    <MenuItem Header="Выход" Click="Exit_Click"/>
-                </MenuItem>
-                <MenuItem Header="Справка" Click="Information_Click"/>
-            </Menu>
-        </Grid>
     </Grid>
 </Window>
