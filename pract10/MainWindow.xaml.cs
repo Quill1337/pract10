@@ -15,55 +15,79 @@ using System.Windows.Shapes;
 
 namespace pract10
 {
-    /// <summary>
-    /// Interaction logic for MainWindow.xaml
-    /// </summary>
-    public partial class MainWindow : Window
-    {
+  List<int> AvgNegativeNums = new List<int>();
         public MainWindow()
         {
             InitializeComponent();
         }
-        private List<int> array = new List<int>(10);
 
-        private void FillList_Click(object sender, RoutedEventArgs e) //заполнение ListBox
+        private void TaskShow_Click(object sender, RoutedEventArgs e)
         {
-            values.Items.Clear();
-
-            Random random = new Random();
-
-            for (int i = 0; i < 10; i++)
-            {
-                array.Add(random.Next(-100, 100));
-                values.Items.Add(array[i]);
-            }
+            MessageBox.Show("Митрофанов Роман ИСП-31\nСоставьте программу вычисления среднего арифметического отрицательных элементов.");
         }
 
-        private void FindAverage_Click(object sender, RoutedEventArgs e) //поиск средне арифметического
-        {
-            if (array.Count == 0)
-            {
-                MessageBox.Show("Заполните список!", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
-            }
-            else
-            {
-                array = array.FindAll(x => x < 0);
-                result.Text = array.Average().ToString();
-            }
-        }
-
-        private void Clear_Click(object sender, RoutedEventArgs e)
-        {
-            values.Items.Clear();
-            result.Clear();
-        }
-        private void Information_Click(object sender, RoutedEventArgs e)
-        {
-            MessageBox.Show("Митрофанов Роман ИСП-31\nСоставьте программу вычисления среднего арифметического отрицательных элементов и его номера.");
-        }
-        private void Exit_Click(object sender, RoutedEventArgs e)
+        private void CloseProg_Click(object sender, RoutedEventArgs e)
         {
             Close();
         }
+
+        private void ClearAll_Click(object sender, RoutedEventArgs e)
+        {
+            CapacityLenghtTextBox.Clear();
+            AvgNums.Clear();
+            AvgNegativeNums.Clear();
+            ArrNums.Items.Clear();
+            CapacityLenghtTextBox.Focus();
+        }
+
+        private void CapacityLenghtTextBox_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            if (int.TryParse(CapacityLenghtTextBox.Text, out int capacity))
+            {
+                AvgNegativeNums = new List<int>(capacity);
+                FillCollection(ref AvgNegativeNums, -10, 10);
+                AddElemToDataGrid(AvgNegativeNums);
+            }
+            else
+            {
+                
+                ArrNums.Items.Clear();
+            }
+        }
+        public void AddElemToDataGrid(List<int> nums)
+        {
+            ArrNums.Items.Clear();
+            foreach (int item in nums)
+            {
+                ArrNums.Items.Add(new Nums() { Num = item });
+            }
+        }
+        public static void FillCollection(ref List<int> nums, int minRandNum, int maxRandNum)
+        {
+            Random rnd = new Random();
+            for (int i = 0; i < nums.Capacity; i++)
+            {
+                nums.Add(rnd.Next(minRandNum, maxRandNum));
+            }
+        }
+
+        private void ResBut_Click(object sender, RoutedEventArgs e)
+        {
+            double sum = 0, negativeCount = 0;
+            for (int i = 0; i < AvgNegativeNums.Capacity; i++)
+            {
+                if (AvgNegativeNums[i] < 0)
+                {
+                    sum += AvgNegativeNums[i];
+                }
+                negativeCount = i + 1;
+            }
+            double avgNum = sum / negativeCount;
+            AvgNums.Text = $"{avgNum}";
+        }
+    }
+    public class Nums
+    {
+        public int Num { get; set; }
     }
 }
